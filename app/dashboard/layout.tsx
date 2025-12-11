@@ -7,6 +7,7 @@ import { Dumbbell, LogOut, Settings, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import DashboardLoading from "./loading";
+import { showToast } from "@/components/atoms/toast";
 
 export default function DashboardLayout({
 	children,
@@ -17,6 +18,7 @@ export default function DashboardLayout({
   const { user, loading } = useSession();
   useEffect(() => {
     if (!loading && !user) {
+			showToast("Please login first.", 'error');
       router.push("/login");
     }
   }, [loading, user, router]);
@@ -28,14 +30,14 @@ export default function DashboardLayout({
 			label: 'Dashboard',
 		},
 		{
-			icon: <Settings size={16} />,
-			link: "/settings",
-			label: 'Settings',
-		},
-		{
 			icon: <Dumbbell size={16} />,
 			link: "/habits",
 			label: 'Habits',
+		},
+		{
+			icon: <Settings size={16} />,
+			link: "/settings",
+			label: 'Settings',
 		},
 	];
 

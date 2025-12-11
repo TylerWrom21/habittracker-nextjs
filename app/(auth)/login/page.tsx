@@ -1,21 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import { apiClient } from "@/lib/apiClient";
 import { useRouter } from "next/navigation";
+import { showToast } from "@/components/atoms/toast";
 
 export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    const form = new FormData(e.target);
+    const form = new FormData(e.target as HTMLFormElement);
     const email = form.get("email");
     const password = form.get("password");
 
@@ -25,8 +25,10 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password })
       });
       router.push("/dashboard");
-    } catch (err: any) {
-      setError(err.message);
+      showToast(`Successfully logged in.`, 'success');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+      showToast(err instanceof Error ? err.message : "Unknown error", 'error');
     } finally {
       setLoading(false);
     }
@@ -56,8 +58,6 @@ export default function LoginPage() {
             required
           />
         </div>
-
-        {error && <p className="text-error text-sm">{error}</p>}
 
         <button
           type="submit"

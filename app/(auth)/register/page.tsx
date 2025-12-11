@@ -1,40 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import { apiClient } from "@/lib/apiClient";
 import { useRouter } from "next/navigation";
-import {
-	Card,
-	CardHeader,
-	CardTitle,
-	CardDescription,
-	CardContent,
-	CardFooter,
-} from "@/components/ui/card";
-import { Label } from "@radix-ui/react-label";
-import {
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectItem,
-} from "@radix-ui/react-select";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { FormField } from "@/components/ui/form-field";
+import { showToast } from "@/components/atoms/toast";
 
 export default function RegisterPage() {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 
-	async function handleSubmit(e: any) {
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		setLoading(true);
 		setError("");
 
-		const form = new FormData(e.target);
+		const form = new FormData(e as unknown as HTMLFormElement);
 		const name = form.get("name");
 		const email = form.get("email");
 		const password = form.get("password");
@@ -45,8 +26,9 @@ export default function RegisterPage() {
 				body: JSON.stringify({ name, email, password }),
 			});
 			router.push("/dashboard");
-		} catch (err: any) {
-			setError(err.message);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Unknown error");
+			showToast(err instanceof Error ? err.message : "Unknown error", 'error');
 		} finally {
 			setLoading(false);
 		}
@@ -101,8 +83,6 @@ export default function RegisterPage() {
 							required
 						/>
 					</div>
-
-					{error && <p className="text-error text-sm">{error}</p>}
 
 					<button
 						type="submit"

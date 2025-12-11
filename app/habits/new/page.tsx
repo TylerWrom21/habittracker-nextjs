@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/button";
 import { apiClient } from "@/lib/apiClient";
 import { useSession } from "@/hooks/useSessions";
 import { showToast } from "@/components/atoms/toast";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function NewHabits() {
 	const router = useRouter();
@@ -22,10 +25,6 @@ export default function NewHabits() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 	const [submitAction, setSubmitAction] = useState<"submit" | "submit_new">("submit");
-
-	function debugThing() {
-		console.log(userId);
-	}
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -60,7 +59,6 @@ export default function NewHabits() {
 				showToast('Habit created successfully', 'success');
 			}
 		} catch (err: unknown) {
-			// showToast((err as Error).message, 'error');
 			setError((err as Error).message);
 		} finally {
 			setLoading(false);
@@ -68,68 +66,127 @@ export default function NewHabits() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<div className="flex flex-col gap-5">
-				<InputField
-					type="text"
-					value={name}
-					required={true}
-					onChange={setName}
-					label="Habit Name"
-					placeholder="Read for 15 minutes"
-				/>
-
-				<FrequencySelector
-					required={true}
-					frequency={frequency}
-					setFrequency={setFrequency}
-					days={days}
-					setDays={setDays}
-				/>
-
-				<TimePicker
-					required={true}
-					value={time}
-					onChange={setTime}
-					label="Reminder Time"
-				/>
-
-				<label className="flex flex-col w-full">
-					<p className="text-primary text-xl font-semibold pb-2">Description</p>
-					<Textarea
-						required
-						value={description}
-						onChange={(e) => setDescription(e.target.value)}
-						placeholder="I want to be a.."
-						className="w-full rounded-lg text-primary border border-muted-foreground transition hover:bg-muted/80
-				        h-14 px-4 font-bold placeholder:text-ring focus:outline-none"
-					/>
-				</label>
-				{/* {error && <p className="text-error">{error}</p>}
-				{loading ? "Creating habit..." : ""} */}
-				<div className="w-full flex justify-end gap-2">
-					<Button
-						variant="outline"
-						type="submit"
-						onClick={() => setSubmitAction("submit")}
-					>
-						Submit
+		<div className="space-y-6 max-w-2xl mx-auto">
+			{/* Header */}
+			<div className="flex items-center gap-4">
+				<Link href="/habits">
+					<Button variant="ghost" size="sm" className="gap-2">
+						<ArrowLeft className="h-4 w-4" />
+						<span className="hidden sm:inline">Back</span>
 					</Button>
-
-					<Button
-						type="submit"
-						onClick={() => setSubmitAction("submit_new")}
-					>
-						Submit & Create New
-					</Button>
+				</Link>
+				<div>
+					<h1 className="text-2xl sm:text-3xl font-bold text-primary">Create New Habit</h1>
+					<p className="text-primary/60 text-sm mt-1">Build a new habit and start your journey</p>
 				</div>
 			</div>
-			<Button
-				type="button"
-				onClick={() => debugThing}
-			>
-				Submit & Create New
-			</Button>
-		</form>
+
+			{/* Form Card */}
+			<Card>
+				<CardHeader>
+					<CardTitle>Habit Details</CardTitle>
+					<CardDescription>Fill in the information about your new habit</CardDescription>
+				</CardHeader>
+
+				<form onSubmit={handleSubmit} className="px-6 pb-6">
+					<div className="space-y-6">
+						{/* Habit Name */}
+						<InputField
+							type="text"
+							value={name}
+							required={true}
+							onChange={setName}
+							label="Habit Name"
+							placeholder="e.g., Read for 15 minutes, Exercise, Meditate"
+						/>
+
+						{/* Frequency Selector */}
+						<FrequencySelector
+							required={true}
+							frequency={frequency}
+							setFrequency={setFrequency}
+							days={days}
+							setDays={setDays}
+						/>
+
+						{/* Time Picker */}
+						<TimePicker
+							required={true}
+							value={time}
+							onChange={setTime}
+							label="Reminder Time"
+						/>
+
+						{/* Description */}
+						<div className="flex flex-col w-full">
+							<label className="block text-primary text-sm font-semibold mb-2">
+								Description
+								<span className="text-xs text-primary/60 font-normal ml-1">(optional)</span>
+							</label>
+							<Textarea
+								required
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
+								placeholder="Why do you want to develop this habit? What are your goals?"
+								className="w-full rounded-lg text-primary border border-muted-foreground transition hover:bg-muted/80
+						        h-24 sm:h-32 px-4 py-2 sm:py-3 font-normal placeholder:text-ring focus:outline-none focus:ring-2 focus:ring-primary/50"
+							/>
+						</div>
+
+						{/* Error Message */}
+						{error && (
+							<div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+								<p className="text-red-600 text-sm">{error}</p>
+							</div>
+						)}
+
+						{/* Action Buttons */}
+						<div className="flex flex-col sm:flex-row gap-3 justify-end pt-4 border-t border-muted-foreground/20">
+							<Link href="/habits" className="w-full sm:w-auto">
+								<Button
+									variant="outline"
+									type="button"
+									className="w-full"
+								>
+									Cancel
+								</Button>
+							</Link>
+
+							<Button
+								variant="outline"
+								type="submit"
+								onClick={() => setSubmitAction("submit_new")}
+								className="w-full sm:w-auto"
+								disabled={loading}
+							>
+								{loading ? "Creating..." : "Submit & Create New"}
+							</Button>
+
+							<Button
+								type="submit"
+								onClick={() => setSubmitAction("submit")}
+								className="w-full sm:w-auto"
+								disabled={loading}
+							>
+								{loading ? "Creating..." : "Submit"}
+							</Button>
+						</div>
+					</div>
+				</form>
+			</Card>
+
+			{/* Info Card */}
+			<Card className="bg-blue-500/10 border-blue-500/30">
+				<CardHeader>
+					<CardTitle className="text-lg">💡 Tips for Success</CardTitle>
+				</CardHeader>
+				<div className="px-6 pb-6 space-y-2 text-sm text-primary/80">
+					<p>✓ Start small - don&apos;t aim for perfection</p>
+					<p>✓ Choose a specific time to complete your habit</p>
+					<p>✓ Track consistently to see progress</p>
+					<p>✓ Be patient - habits take time to build</p>
+				</div>
+			</Card>
+		</div>
 	);
 }

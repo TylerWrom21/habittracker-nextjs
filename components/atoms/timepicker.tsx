@@ -31,25 +31,18 @@ export default function TimePicker({ required, value, onChange, label = "Time" }
 
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
-  const [period, setPeriod] = useState("");
 
   const parsedTime = useMemo(() => {
     if (value && value.includes(":")) {
       const [hours, mins] = value.split(":");
-      const hour24 = parseInt(hours);
-      const isPM = hour24 >= 12;
-      const hour12 = hour24 === 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
-
       return {
-        hour: hour12.toString(),
-        minute: mins,
-        period: isPM ? "PM" : "AM"
+        hour: hours.padStart(2, "0"),
+        minute: mins.padStart(2, "0")
       };
     }
     return {
       hour: "",
-      minute: "",
-      period: ""
+      minute: ""
     };
   }, [value]);
 
@@ -57,40 +50,35 @@ export default function TimePicker({ required, value, onChange, label = "Time" }
     if (open) {
       setHour(parsedTime.hour);
       setMinute(parsedTime.minute);
-      setPeriod(parsedTime.period);
       setValidationError("");
     }
     setIsOpen(open);
   };
 
   const formatDisplayTime = () => {
-    if (!parsedTime.hour || !parsedTime.minute || !parsedTime.period) {
+    if (!parsedTime.hour || !parsedTime.minute) {
       return "Select time";
     }
-    return `${parsedTime.hour}:${parsedTime.minute} ${parsedTime.period}`;
+    return `${parsedTime.hour}:${parsedTime.minute}`;
   };
 
   const isValidTime = () => {
-    return hour && minute && period;
+    return hour && minute;
   };
 
   const handleConfirm = () => {
     if (!isValidTime()) {
-      setValidationError("Please select hour, minute, and AM/PM");
+      setValidationError("Please select hour and minute");
       return;
     }
 
     setValidationError("");
-    const hour24 = period === "PM"
-      ? (parseInt(hour) === 12 ? 12 : parseInt(hour) + 12)
-      : (parseInt(hour) === 12 ? 0 : parseInt(hour));
-
-    const timeString = `${hour24.toString().padStart(2, "0")}:${minute}`;
+    const timeString = `${hour}:${minute}`;
     onChange(timeString);
     setIsOpen(false);
   };
 
-  const hours = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
+  const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, "0"));
   const minutes = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, "0"));
 
   return (
@@ -152,21 +140,6 @@ export default function TimePicker({ required, value, onChange, label = "Time" }
                     {m}
                   </SelectItem>
                 ))}
-              </SelectContent>
-            </Select>
-            <Select
-              value={period}
-              onValueChange={(value) => {
-                setPeriod(value);
-                setValidationError("");
-              }}
-            >
-              <SelectTrigger className="w-20">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="AM">AM</SelectItem>
-                <SelectItem value="PM">PM</SelectItem>
               </SelectContent>
             </Select>
           </div>

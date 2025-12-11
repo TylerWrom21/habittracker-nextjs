@@ -1,7 +1,12 @@
-import { usePathname } from "next/navigation";
+"use client";
+
+import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "@/hooks/useSessions";
 import { Skeleton } from "../ui/skeleton";
 import { LogOut } from "lucide-react";
+import { showToast } from "./toast";
+import { apiClient } from "@/lib/apiClient";
+import { useState } from "react";
 
 type SidebarItem = {
 	icon: React.ReactNode;
@@ -15,8 +20,26 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ items }: SidebarProps) {
+	const router = useRouter();
 	const pathname = usePathname();
 	const { loading } = useSession();
+	const [logoutLoading, setLogoutLoading] = useState(false);
+
+	async function handleLogout() {
+		setLogoutLoading(true);
+		try {
+			await apiClient("/api/auth/logout", {
+				method: "POST",
+			});
+			showToast("Logged out successfully", 'success');
+			router.push("/login");
+		} catch (err) {
+			showToast(err instanceof Error ? err.message : "Logout failed", 'error');
+		} finally {
+			setLogoutLoading(false);
+		}
+	}
+
 	return (
 		<aside className="md:block hidden w-1/5 border-r border-muted-foreground fixed top-0 left-0 bg-background">
 			<div className="flex h-full min-h-screen flex-col justify-between p-4 sticky top-24">
@@ -44,13 +67,14 @@ export default function Sidebar({ items }: SidebarProps) {
 					{loading ? (
 						<Skeleton className="w-full h-10" />
 					) : (	
-						<a
-							href="/logout"
-							className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition hover:bg-muted text-primary  hover:text-red-500"
+						<button
+							onClick={handleLogout}
+							disabled={logoutLoading}
+							className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition hover:bg-muted text-primary hover:text-red-500 disabled:opacity-50"
 						>
 							<span className="material-symbols-outlined"><LogOut /></span>
-							<p className="text-sm lg:text-lg">Logout</p>
-						</a>
+							<p className="text-sm lg:text-lg">{logoutLoading ? "Logging out..." : "Logout"}</p>
+						</button>
 					)}
 				</div>
 			</div>
