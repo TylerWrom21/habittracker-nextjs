@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/ca
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { showToast } from "@/components/atoms/toast";
-import { ArrowLeft, Save, Eye, EyeOff, Lock, Mail, User as UserIcon, Settings as SettingsIcon } from "lucide-react";
+import { ArrowLeft, Save, Eye, EyeOff, Lock, Mail, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 
 interface UserSettings {
@@ -56,7 +56,9 @@ export default function SettingsPage() {
         });
 
         if (!res.ok) {
-          throw new Error("Failed to fetch user data");
+          const data = await res.json();
+          showToast(data.error || "Failed to load settings", "error");
+          return;
         }
 
         const data = await res.json();
@@ -67,9 +69,8 @@ export default function SettingsPage() {
           theme: data.user.settings?.theme || "system",
           dateFormat: data.user.settings?.dateFormat || "YYYY-MM-DD",
         });
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-        showToast("Failed to load settings", "error");
+      } catch {
+        showToast("An unexpected error occurred while loading settings", "error");
       } finally {
         setLoading(false);
       }
@@ -88,6 +89,21 @@ export default function SettingsPage() {
   const handleSaveSettings = async () => {
     setSaving(true);
     try {
+      if (!userSettings.name.trim()) {
+        showToast("Name cannot be empty", "error");
+        return;
+      }
+
+      if (userSettings.name.length > 60) {
+        showToast("Name must be 60 characters or less", "error");
+        return;
+      }
+
+      if (!userSettings.email.includes("@")) {
+        showToast("Invalid email address", "error");
+        return;
+      }
+
       const res = await fetch("/api/auth/update-profile", {
         method: "PATCH",
         credentials: "include",
@@ -105,15 +121,16 @@ export default function SettingsPage() {
         }),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to update profile");
+        showToast(data.error || "Failed to update profile", "error");
+        return;
       }
 
       showToast("Profile updated successfully", "success");
-    } catch (err) {
-      console.error("Error updating profile:", err);
-      showToast((err as Error).message, "error");
+    } catch {
+      showToast("An unexpected error occurred", "error");
     } finally {
       setSaving(false);
     }
@@ -127,6 +144,11 @@ export default function SettingsPage() {
 
     if (passwordForm.newPassword.length < 8) {
       showToast("Password must be at least 8 characters", "error");
+      return;
+    }
+
+    if (!passwordForm.currentPassword.trim()) {
+      showToast("Please enter your current password", "error");
       return;
     }
 
@@ -144,9 +166,11 @@ export default function SettingsPage() {
         }),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to change password");
+        showToast(data.error || "Failed to change password", "error");
+        return;
       }
 
       showToast("Password changed successfully", "success");
@@ -155,9 +179,8 @@ export default function SettingsPage() {
         newPassword: "",
         confirmPassword: "",
       });
-    } catch (err) {
-      console.error("Error changing password:", err);
-      showToast((err as Error).message, "error");
+    } catch {
+      showToast("An unexpected error occurred", "error");
     } finally {
       setPasswordChanging(false);
     }

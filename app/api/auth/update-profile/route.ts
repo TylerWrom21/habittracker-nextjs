@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyAuth } from "@/lib/auth/jwt";
 import User from "@/lib/models/User";
 import { connectDB } from "@/lib/db/mongodb";
-import { ApiError, createErrorResponse } from "@/lib/utils/responses";
 
 interface UpdateProfileRequest {
   name?: string;
@@ -19,7 +18,10 @@ export async function PATCH(request: NextRequest) {
     // Verify authentication
     const decoded = await verifyAuth();
     if (!decoded) {
-      return createErrorResponse("Unauthorized", 401);
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
     // Connect to database
@@ -28,7 +30,10 @@ export async function PATCH(request: NextRequest) {
     // Find user
     const user = await User.findById(decoded.userId);
     if (!user) {
-      return createErrorResponse("User not found", 404);
+      return NextResponse.json(
+        { error: "User not found" },
+        { status: 404 }
+      );
     }
 
     // Parse request body
@@ -37,10 +42,16 @@ export async function PATCH(request: NextRequest) {
     // Validate and update name
     if (body.name !== undefined) {
       if (typeof body.name !== "string" || body.name.trim().length === 0) {
-        return createErrorResponse("Name must be a non-empty string", 400);
+        return NextResponse.json(
+          { error: "Name must be a non-empty string" },
+          { status: 400 }
+        );
       }
       if (body.name.length > 60) {
-        return createErrorResponse("Name must be 60 characters or less", 400);
+        return NextResponse.json(
+          { error: "Name must be 60 characters or less" },
+          { status: 400 }
+        );
       }
       user.name = body.name.trim();
     }
@@ -48,7 +59,10 @@ export async function PATCH(request: NextRequest) {
     // Validate and update email
     if (body.email !== undefined) {
       if (typeof body.email !== "string" || !body.email.includes("@")) {
-        return createErrorResponse("Invalid email address", 400);
+        return NextResponse.json(
+          { error: "Invalid email address" },
+          { status: 400 }
+        );
       }
 
       // Check if email already exists
@@ -58,7 +72,10 @@ export async function PATCH(request: NextRequest) {
       });
 
       if (existingUser) {
-        return createErrorResponse("Email already in use", 400);
+        return NextResponse.json(
+          { error: "Email already in use" },
+          { status: 400 }
+        );
       }
 
       user.email = body.email.toLowerCase();
@@ -83,7 +100,10 @@ export async function PATCH(request: NextRequest) {
           "AEST",
         ];
         if (!validTimezones.includes(body.settings.timezone)) {
-          return createErrorResponse("Invalid timezone", 400);
+          return NextResponse.json(
+            { error: "Invalid timezone" },
+            { status: 400 }
+          );
         }
         user.settings.timezone = body.settings.timezone;
       }
@@ -91,7 +111,10 @@ export async function PATCH(request: NextRequest) {
       if (body.settings.theme) {
         const validThemes = ["light", "dark", "system"];
         if (!validThemes.includes(body.settings.theme)) {
-          return createErrorResponse("Invalid theme", 400);
+          return NextResponse.json(
+            { error: "Invalid theme" },
+            { status: 400 }
+          );
         }
         user.settings.theme = body.settings.theme;
       }
@@ -104,7 +127,10 @@ export async function PATCH(request: NextRequest) {
           "DD-MMM-YYYY",
         ];
         if (!validFormats.includes(body.settings.dateFormat)) {
-          return createErrorResponse("Invalid date format", 400);
+          return NextResponse.json(
+            { error: "Invalid date format" },
+            { status: 400 }
+          );
         }
         user.settings.dateFormat = body.settings.dateFormat;
       }
@@ -125,11 +151,10 @@ export async function PATCH(request: NextRequest) {
         createdAt: user.createdAt,
       },
     });
-  } catch (error) {
-    console.error("Update profile error:", error);
-    if (error instanceof ApiError) {
-      return createErrorResponse((error as ApiError).message, (error as ApiError).statusCode);
-    }
-    return createErrorResponse("Internal server error", 500);
+  } catch {
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

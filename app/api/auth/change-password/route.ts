@@ -3,7 +3,6 @@ import { verifyAuth } from "@/lib/auth/jwt";
 import { hashPassword, comparePassword } from "@/lib/auth/hash";
 import User from "@/lib/models/User";
 import { connectDB } from "@/lib/db/mongodb";
-import { ApiError, createErrorResponse } from "@/lib/utils/responses";
 
 interface ChangePasswordRequest {
   currentPassword: string;
@@ -15,7 +14,10 @@ export async function POST(request: NextRequest) {
     // Verify authentication
     const decoded = await verifyAuth();
     if (!decoded) {
-      return createErrorResponse("Unauthorized", 401);
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
     // Connect to database
@@ -24,7 +26,10 @@ export async function POST(request: NextRequest) {
     // Find user
     const user = await User.findById(decoded.userId);
     if (!user) {
-      return createErrorResponse("User not found", 404);
+      return NextResponse.json(
+        { error: "User not found" },
+        { status: 404 }
+      );
     }
 
     // Parse request body
@@ -32,11 +37,17 @@ export async function POST(request: NextRequest) {
 
     // Validate inputs
     if (!body.currentPassword || !body.newPassword) {
-      return createErrorResponse("All fields are required", 400);
+      return NextResponse.json(
+        { error: "All fields are required" },
+        { status: 400 }
+      );
     }
 
     if (body.newPassword.length < 8) {
-      return createErrorResponse("Password must be at least 8 characters", 400);
+      return NextResponse.json(
+        { error: "Password must be at least 8 characters" },
+        { status: 400 }
+      );
     }
 
     // Verify current password
@@ -46,7 +57,10 @@ export async function POST(request: NextRequest) {
     );
 
     if (!isPasswordValid) {
-      return createErrorResponse("Current password is incorrect", 401);
+      return NextResponse.json(
+        { error: "Current password is incorrect" },
+        { status: 401 }
+      );
     }
 
     // Prevent using same password
@@ -56,9 +70,9 @@ export async function POST(request: NextRequest) {
     );
 
     if (isSamePassword) {
-      return createErrorResponse(
-        "New password must be different from current password",
-        400
+      return NextResponse.json(
+        { error: "New password must be different from current password" },
+        { status: 400 }
       );
     }
 
@@ -70,11 +84,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       message: "Password changed successfully",
     });
-  } catch (error) {
-    console.error("Change password error:", error);
-    if (error instanceof ApiError) {
-      return createErrorResponse((error as ApiError).message, (error as ApiError).statusCode);
-    }
-    return createErrorResponse("Internal server error", 500);
+  } catch {
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
