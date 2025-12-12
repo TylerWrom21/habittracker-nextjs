@@ -13,7 +13,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const token = cookieHeader.split("session_token=")[1]?.split(";")[0];
+    const token = cookieHeader.split("authToken=")[1]?.split(";")[0];
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const token = cookieHeader.split("session_token=")[1]?.split(";")[0];
+    const token = cookieHeader.split("authToken=")[1]?.split(";")[0];
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

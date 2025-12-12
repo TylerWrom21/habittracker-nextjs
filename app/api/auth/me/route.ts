@@ -3,7 +3,7 @@ import User from "@/lib/models/User";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth/jwt";
 
-const COOKIE_NAME = "session_token";
+const COOKIE_NAME = "authToken";
 
 export async function GET() {
   try {

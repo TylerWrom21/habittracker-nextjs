@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     const response = new Response(JSON.stringify({ message: "Login successful" }), {
       headers: {
         'Content-Type': 'application/json',
-        'Set-Cookie': `session_token=${token}; Path=/; Domain=localhost; Max-Age=${60 * 60 * 24 * 7}; HttpOnly=false; SameSite=lax${process.env.NODE_ENV === "production" ? "; Secure" : ""}`
+        'Set-Cookie': `authToken=${token}; Path=/; Max-Age=${60 * 60 * 24 * 7}; HttpOnly=true; SameSite=lax${process.env.NODE_ENV === "production" ? "; Secure" : ""}`
       }
     });
 

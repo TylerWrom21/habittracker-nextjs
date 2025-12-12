@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-const COOKIE_NAME = "session_token";
+const COOKIE_NAME = "authToken";
 
 export async function getAuthCookie(cookieStore: ReturnType<typeof cookies>) {
   return (await cookieStore).get(COOKIE_NAME)?.value || null;
@@ -15,7 +15,6 @@ export async function setAuthCookie(token: string) {
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    domain: "localhost",
     maxAge: 60 * 60 * 24 * 7, // 7 days
   });
 }
