@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyAuth } from "@/lib/auth/jwt";
 import User from "@/lib/models/User";
 import { connectDB } from "@/lib/db/mongodb";
+import { getErrorResponse } from "@/lib/utils/error-handler";
 
 interface UpdateProfileRequest {
   name?: string;
@@ -19,7 +20,7 @@ export async function PATCH(request: NextRequest) {
     const decoded = await verifyAuth();
     if (!decoded) {
       return NextResponse.json(
-        { error: "Unauthorized" },
+        getErrorResponse("Unauthorized"),
         { status: 401 }
       );
     }
@@ -31,7 +32,7 @@ export async function PATCH(request: NextRequest) {
     const user = await User.findById(decoded.userId);
     if (!user) {
       return NextResponse.json(
-        { error: "User not found" },
+        getErrorResponse("User not found"),
         { status: 404 }
       );
     }
@@ -43,13 +44,13 @@ export async function PATCH(request: NextRequest) {
     if (body.name !== undefined) {
       if (typeof body.name !== "string" || body.name.trim().length === 0) {
         return NextResponse.json(
-          { error: "Name must be a non-empty string" },
+          getErrorResponse("Name must be a non-empty string"),
           { status: 400 }
         );
       }
       if (body.name.length > 60) {
         return NextResponse.json(
-          { error: "Name must be 60 characters or less" },
+          getErrorResponse("Name must be 60 characters or less"),
           { status: 400 }
         );
       }
@@ -60,7 +61,7 @@ export async function PATCH(request: NextRequest) {
     if (body.email !== undefined) {
       if (typeof body.email !== "string" || !body.email.includes("@")) {
         return NextResponse.json(
-          { error: "Invalid email address" },
+          getErrorResponse("Invalid email address"),
           { status: 400 }
         );
       }
@@ -73,7 +74,7 @@ export async function PATCH(request: NextRequest) {
 
       if (existingUser) {
         return NextResponse.json(
-          { error: "Email already in use" },
+          getErrorResponse("Email already in use"),
           { status: 400 }
         );
       }
@@ -101,7 +102,7 @@ export async function PATCH(request: NextRequest) {
         ];
         if (!validTimezones.includes(body.settings.timezone)) {
           return NextResponse.json(
-            { error: "Invalid timezone" },
+            getErrorResponse("Invalid timezone"),
             { status: 400 }
           );
         }
@@ -112,7 +113,7 @@ export async function PATCH(request: NextRequest) {
         const validThemes = ["light", "dark", "system"];
         if (!validThemes.includes(body.settings.theme)) {
           return NextResponse.json(
-            { error: "Invalid theme" },
+            getErrorResponse("Invalid theme"),
             { status: 400 }
           );
         }
@@ -128,7 +129,7 @@ export async function PATCH(request: NextRequest) {
         ];
         if (!validFormats.includes(body.settings.dateFormat)) {
           return NextResponse.json(
-            { error: "Invalid date format" },
+            getErrorResponse("Invalid date format"),
             { status: 400 }
           );
         }
@@ -153,7 +154,7 @@ export async function PATCH(request: NextRequest) {
     });
   } catch {
     return NextResponse.json(
-      { error: "Internal server error" },
+      getErrorResponse("Internal server error"),
       { status: 500 }
     );
   }

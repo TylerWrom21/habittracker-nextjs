@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/db/mongodb";
 import User from "@/lib/models/User";
 import { comparePassword } from "@/lib/auth/hash";
 import { signToken } from "@/lib/auth/jwt";
+import { getErrorResponse } from "@/lib/utils/error-handler";
 
 export async function POST(req: Request) {
   try {
@@ -10,10 +11,10 @@ export async function POST(req: Request) {
     const { email, password } = await req.json();
 
     const user = await User.findOne({ email });
-    if (!user) return Response.json({ error: "Invalid credentials" }, { status: 401 });
+    if (!user) return Response.json(getErrorResponse("Invalid email or password"), { status: 401 });
 
     const isValid = await comparePassword(password, user.password);
-    if (!isValid) return Response.json({ error: "Invalid credentials" }, { status: 401 });
+    if (!isValid) return Response.json(getErrorResponse("Invalid email or password"), { status: 401 });
 
     const token = signToken({
       userId: user._id.toString(),
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
     });
 
     return response;
-  } catch (err) {
-    return Response.json({ error: "Server error", err }, { status: 500 });
+  } catch {
+    return Response.json(getErrorResponse("Server error"), { status: 500 });
   }
 }

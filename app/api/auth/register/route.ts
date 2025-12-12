@@ -1,8 +1,8 @@
 import { connectDB } from "@/lib/db/mongodb";
 import User from "@/lib/models/User";
-import { setAuthCookie } from "@/lib/auth/cookies";
 import { hashPassword } from "@/lib/auth/hash";
 import { signToken } from "@/lib/auth/jwt";
+import { getErrorResponse } from "@/lib/utils/error-handler";
 
 export async function POST(req: Request) {
   try {
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const { name, email, password } = await req.json();
 
     if (!name || !email || !password) {
-      return Response.json({ error: "Missing fields" }, { status: 400 });
+      return Response.json(getErrorResponse("All fields are required"), { status: 400 });
     }
 
     const trimmedName = name.trim();
@@ -19,27 +19,26 @@ export async function POST(req: Request) {
     const trimmedPassword = password.trim();
 
     if (trimmedPassword.length < 8) {
-      return Response.json({ error: "Password must be at least 8 characters long" }, { status: 400 });
+      return Response.json(getErrorResponse("Password must be at least 8 characters"), { status: 400 });
     }
 
     if (trimmedName.length > 60) {
-      return Response.json({ error: "Name must be 60 characters or less" }, { status: 400 });
+      return Response.json(getErrorResponse("Name must be 60 characters or less"), { status: 400 });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(trimmedEmail)) {
-      return Response.json({ error: "Invalid email format" }, { status: 400 });
+      return Response.json(getErrorResponse("Invalid email format"), { status: 400 });
     }
 
     const existing = await User.findOne({ email: trimmedEmail });
     if (existing) {
-      return Response.json({ error: "Email already exists" }, { status: 409 });
+      return Response.json(getErrorResponse("Email already in use"), { status: 409 });
     }
 
     try {
       await User.collection.dropIndex("username_1");
-    } catch (err) {
-    }
+    } catch {}
 
     const hashed = await hashPassword(trimmedPassword);
 
@@ -63,7 +62,7 @@ export async function POST(req: Request) {
     });
 
     return response;
-  } catch (err) {
-    return Response.json({ error: "Server error", err }, { status: 500 });
+  } catch {
+    return Response.json(getErrorResponse("Server error"), { status: 500 });
   }
 }

@@ -3,6 +3,7 @@ import { verifyAuth } from "@/lib/auth/jwt";
 import { hashPassword, comparePassword } from "@/lib/auth/hash";
 import User from "@/lib/models/User";
 import { connectDB } from "@/lib/db/mongodb";
+import { getErrorResponse } from "@/lib/utils/error-handler";
 
 interface ChangePasswordRequest {
   currentPassword: string;
@@ -15,7 +16,7 @@ export async function POST(request: NextRequest) {
     const decoded = await verifyAuth();
     if (!decoded) {
       return NextResponse.json(
-        { error: "Unauthorized" },
+        getErrorResponse("Unauthorized"),
         { status: 401 }
       );
     }
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest) {
     const user = await User.findById(decoded.userId);
     if (!user) {
       return NextResponse.json(
-        { error: "User not found" },
+        getErrorResponse("User not found"),
         { status: 404 }
       );
     }
@@ -38,14 +39,14 @@ export async function POST(request: NextRequest) {
     // Validate inputs
     if (!body.currentPassword || !body.newPassword) {
       return NextResponse.json(
-        { error: "All fields are required" },
+        getErrorResponse("All fields are required"),
         { status: 400 }
       );
     }
 
     if (body.newPassword.length < 8) {
       return NextResponse.json(
-        { error: "Password must be at least 8 characters" },
+        getErrorResponse("Password must be at least 8 characters"),
         { status: 400 }
       );
     }
@@ -58,7 +59,7 @@ export async function POST(request: NextRequest) {
 
     if (!isPasswordValid) {
       return NextResponse.json(
-        { error: "Current password is incorrect" },
+        getErrorResponse("Current password is incorrect"),
         { status: 401 }
       );
     }
@@ -71,7 +72,7 @@ export async function POST(request: NextRequest) {
 
     if (isSamePassword) {
       return NextResponse.json(
-        { error: "New password must be different from current password" },
+        getErrorResponse("New password must be different from current password"),
         { status: 400 }
       );
     }
@@ -86,7 +87,7 @@ export async function POST(request: NextRequest) {
     });
   } catch {
     return NextResponse.json(
-      { error: "Internal server error" },
+      getErrorResponse("Internal server error"),
       { status: 500 }
     );
   }
