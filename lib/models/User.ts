@@ -18,16 +18,6 @@ const UserSchema = new Schema(
 			minlength: 8,
 		},
 
-		// points: {
-		// 	type: Number,
-		// 	default: 0,
-		// },
-
-		// badges: {
-		// 	type: [String],
-		// 	default: [],
-		// },
-
 		settings: {
 			timezone: { type: String, default: "UTC" },
 			theme: {

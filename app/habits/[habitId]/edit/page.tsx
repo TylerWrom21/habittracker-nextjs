@@ -119,7 +119,7 @@ export default function EditHabit() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="text-primary text-lg font-semibold mb-2">Loading habit...</div>
-          <div className="text-primary/60 text-sm">Please wait</div>
+          <div className="text-primary/80 text-sm">Please wait</div>
         </div>
       </div>
     );
@@ -137,7 +137,7 @@ export default function EditHabit() {
         </Link>
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-primary">Edit Habit</h1>
-          <p className="text-primary/60 text-sm mt-1">Update your habit settings</p>
+          <p className="text-primary/80 text-sm mt-1">Update your habit settings</p>
         </div>
       </div>
 
@@ -192,7 +192,6 @@ export default function EditHabit() {
             <div className="flex flex-col w-full">
               <label className="block text-primary text-sm font-semibold mb-2">
                 Description
-                <span className="text-xs text-primary/60 font-normal ml-1">(optional)</span>
               </label>
               <Textarea
                 required

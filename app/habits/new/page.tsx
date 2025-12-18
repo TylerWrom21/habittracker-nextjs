@@ -77,7 +77,7 @@ export default function NewHabits() {
 				</Link>
 				<div>
 					<h1 className="text-2xl sm:text-3xl font-bold text-primary">Create New Habit</h1>
-					<p className="text-primary/60 text-sm mt-1">Build a new habit and start your journey</p>
+					<p className="text-primary/80 text-sm mt-1">Build a new habit and start your journey</p>
 				</div>
 			</div>
 
@@ -121,7 +121,6 @@ export default function NewHabits() {
 						<div className="flex flex-col w-full">
 							<label className="block text-primary text-sm font-semibold mb-2">
 								Description
-								<span className="text-xs text-primary/60 font-normal ml-1">(optional)</span>
 							</label>
 							<Textarea
 								required
@@ -178,7 +177,7 @@ export default function NewHabits() {
 			{/* Info Card */}
 			<Card className="bg-blue-500/10 border-blue-500/30">
 				<CardHeader>
-					<CardTitle className="text-lg">💡 Tips for Success</CardTitle>
+					<CardTitle className="text-lg">Tips for Success</CardTitle>
 				</CardHeader>
 				<div className="px-6 pb-6 space-y-2 text-sm text-primary/80">
 					<p>✓ Start small - don&apos;t aim for perfection</p>

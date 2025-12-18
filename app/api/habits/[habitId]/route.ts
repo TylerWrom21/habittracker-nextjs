@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db/mongodb";
 import Habit from "@/lib/models/Habit";
+import HabitEntry from "@/lib/models/HabitEntry";
+import Streak from "@/lib/models/Streak";
 import { verifyToken } from "@/lib/auth/jwt";
 
 export async function GET(
@@ -120,6 +122,18 @@ export async function DELETE(
     if (!deleted) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
+
+    // Delete all related HabitEntry records
+    await HabitEntry.deleteMany({
+      habitId,
+      userId: payload.userId,
+    });
+
+    // Delete all related Streak records
+    await Streak.deleteMany({
+      habitId,
+      userId: payload.userId,
+    });
 
     return NextResponse.json({ success: true });
   } catch (err) {

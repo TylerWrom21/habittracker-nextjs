@@ -18,7 +18,7 @@ export default function Navbar() {
 		<header className="flex bg-background items-center justify-between border-b border-muted-foreground px-4 md:px-16 py-3 text-primary fixed w-full top-0 left-0 z-50">
 			<Link href={"/"} className="flex items-center gap-3">
 				<BookOpen className="w-6 h-6" />
-				<h2 className="text-lg font-bold tracking-tight">Discipline</h2>
+				<h2 className="text-lg font-bold tracking-tight">Habitflow</h2>
 			</Link>
 
 			<div className="flex gap-2 items-center">

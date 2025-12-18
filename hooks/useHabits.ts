@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import { useSession } from "@/hooks/useSessions";
 import { showToast } from "@/components/atoms/toast";
+import { getTodayString } from "@/lib/utils/date";
+
+interface HabitEntry {
+  _id: string;
+  habitId: string;
+  userId: string;
+  date: string;
+  count: number;
+  note?: string;
+}
 
 interface Habit {
   _id: string;
@@ -13,6 +23,7 @@ interface Habit {
   archived: boolean;
   createdAt: string;
   updatedAt: string;
+  todayEntry?: HabitEntry | null;
 }
 
 export function useHabits() {
@@ -38,7 +49,35 @@ export function useHabits() {
         }
 
         const data = await res.json();
-        setHabits(data.habits);
+        const today = getTodayString();
+
+        // Fetch entries for today to check completion status
+        const habitsWithStatus = await Promise.all(
+          data.habits.map(async (habit: Habit) => {
+            try {
+              const entryRes = await fetch(
+                `/api/habits/${habit._id}/entries?date=${today}`,
+                {
+                  credentials: "include",
+                }
+              );
+
+              if (entryRes.ok) {
+                const entryData = await entryRes.json();
+                return {
+                  ...habit,
+                  todayEntry: entryData.entry || null,
+                };
+              }
+            } catch (err) {
+              console.error(`Error fetching entry for habit ${habit._id}:`, err);
+            }
+
+            return habit;
+          })
+        );
+
+        setHabits(habitsWithStatus);
       } catch (err) {
         console.error("Error fetching habits:", err);
         setError(err instanceof Error ? err.message : "Unknown error");

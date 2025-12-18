@@ -222,7 +222,7 @@ export default function HabitTrackingPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-primary text-center">
           <div className="text-lg font-semibold mb-2">Loading habit...</div>
-          <div className="text-sm text-primary/60">Please wait</div>
+          <div className="text-sm text-primary/80">Please wait</div>
         </div>
       </div>
     );
@@ -269,7 +269,7 @@ export default function HabitTrackingPage() {
         </Link>
         <div className="flex-1">
           <h1 className="text-2xl sm:text-3xl font-bold text-primary">{habit.name}</h1>
-          <p className="text-primary/60 text-sm sm:text-base">{habit.description}</p>
+          <p className="text-primary/80 text-sm sm:text-base">{habit.description}</p>
         </div>
       </div>
 
@@ -285,7 +285,7 @@ export default function HabitTrackingPage() {
           </CardHeader>
           <div className="px-4 sm:px-6 pb-3 sm:pb-4">
             <div className="text-2xl sm:text-3xl font-bold text-primary">{streak.currentStreak}</div>
-            <p className="text-xs text-primary/60">days</p>
+            <p className="text-xs text-primary/80">days</p>
           </div>
         </Card>
 
@@ -299,7 +299,7 @@ export default function HabitTrackingPage() {
           </CardHeader>
           <div className="px-4 sm:px-6 pb-3 sm:pb-4">
             <div className="text-2xl sm:text-3xl font-bold text-primary">{streak.longestStreak}</div>
-            <p className="text-xs text-primary/60">days</p>
+            <p className="text-xs text-primary/80">days</p>
           </div>
         </Card>
 
@@ -313,7 +313,7 @@ export default function HabitTrackingPage() {
           </CardHeader>
           <div className="px-4 sm:px-6 pb-3 sm:pb-4">
             <div className="text-xl sm:text-2xl font-bold text-primary capitalize">{habit.frequency}</div>
-            <p className="text-xs text-primary/60">{habit.days.join(", ")}</p>
+            <p className="text-xs text-primary/80">{habit.days.join(", ")}</p>
           </div>
         </Card>
       </div>
@@ -330,7 +330,7 @@ export default function HabitTrackingPage() {
               <CheckCircle2 className="h-6 w-6 text-green-500 shrink-0" />
               <div>
                 <p className="text-primary font-semibold">Great job!</p>
-                <p className="text-primary/60 text-sm">You&apos;ve completed this habit today</p>
+                <p className="text-primary/80 text-sm">You&apos;ve completed this habit today</p>
               </div>
             </div>
           ) : !isDateScheduledForHabit(todayString) ? (
@@ -338,7 +338,7 @@ export default function HabitTrackingPage() {
               <AlertCircle className="h-6 w-6 text-yellow-600 shrink-0" />
               <div>
                 <p className="text-primary font-semibold">Not scheduled today</p>
-                <p className="text-primary/60 text-sm">This habit is not scheduled for today</p>
+                <p className="text-primary/80 text-sm">This habit is not scheduled for today</p>
               </div>
             </div>
           ) : (
@@ -366,7 +366,7 @@ export default function HabitTrackingPage() {
           {/* Day names header */}
           <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-4">
             {dayNames.map((day) => (
-              <div key={day} className="text-center text-xs sm:text-sm font-semibold text-primary/70">
+              <div key={day} className="text-center text-xs sm:text-sm font-semibold text-primary/80">
                 {day}
               </div>
             ))}

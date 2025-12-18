@@ -2,7 +2,6 @@ import { connectDB } from "@/lib/db/mongodb";
 import Habit from "@/lib/models/Habit";
 import { NextResponse } from "next/server";
 import { verifyToken } from "@/lib/auth/jwt";
-import { Types } from "mongoose";
 
 export async function GET(req: Request) {
   await connectDB();

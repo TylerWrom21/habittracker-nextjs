@@ -5,9 +5,10 @@ import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useHabits } from "@/hooks/useHabits";
-import { Flame, Calendar, Clock, Edit2, Trash2, Plus, AlertCircle } from "lucide-react";
+import { Flame, Calendar, Clock, Edit2, Trash2, Plus, AlertCircle, CheckCircle2, Clock as ClockIcon } from "lucide-react";
 import { useState } from "react";
 import { Modal } from "@/components/ui/modal";
+import { getHabitStatus } from "@/lib/utils/date";
 
 interface Habit {
   _id: string;
@@ -16,6 +17,14 @@ interface Habit {
   days: string[];
   time: string;
   description: string;
+  todayEntry?: {
+    _id: string;
+    habitId: string;
+    userId: string;
+    date: string;
+    count: number;
+    note?: string;
+  } | null;
 }
 
 export default function HabitsPage() {
@@ -29,7 +38,7 @@ export default function HabitsPage() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="text-primary text-lg font-semibold mb-2">Loading habits...</div>
-          <div className="text-primary/60 text-sm">Please wait</div>
+          <div className="text-primary/80 text-sm">Please wait</div>
         </div>
       </div>
     );
@@ -71,7 +80,7 @@ export default function HabitsPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-primary">Your Habits</h1>
-          <p className="text-primary/60 text-sm mt-1">Track and manage all your daily habits</p>
+          <p className="text-primary/80 text-sm mt-1">Track and manage all your daily habits</p>
         </div>
         <Link href="/habits/new" className="w-full sm:w-auto">
           <Button className="w-full sm:w-auto gap-2">
@@ -96,7 +105,10 @@ export default function HabitsPage() {
         </Card>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {habits.map((habit: Habit) => (
+          {habits.map((habit: Habit) => {
+            const habitStatus = getHabitStatus(habit.days, !!habit.todayEntry);
+            
+            return (
             <div key={habit._id} className="h-full">
               <Card
                 className="h-full flex flex-col cursor-pointer hover:shadow-lg transition-shadow overflow-hidden"
@@ -108,19 +120,41 @@ export default function HabitsPage() {
                       <CardTitle className="text-lg sm:text-xl truncate">
                         {habit.name}
                       </CardTitle>
-                      <CardDescription className="text-xs sm:text-sm line-clamp-2 mt-1">
+                      <CardDescription className="text-xs sm:text-sm line-clamp-2 mt-1 text-primary">
                         {habit.description}
                       </CardDescription>
                     </div>
                   </div>
                 </CardHeader>
 
+                {/* Status Badge */}
+                <div className="px-6 pb-3">
+                  {habitStatus.status === "completed-today" && (
+                    <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      {habitStatus.label}
+                    </div>
+                  )}
+                  {habitStatus.status === "complete-now" && (
+                    <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-medium">
+                      <ClockIcon className="h-3.5 w-3.5" />
+                      {habitStatus.label}
+                    </div>
+                  )}
+                  {habitStatus.status === "complete-later" && (
+                    <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-400 text-xs font-medium">
+                      <Clock className="h-3.5 w-3.5" />
+                      {habitStatus.label}
+                    </div>
+                  )}
+                </div>
+
                 <div className="px-6 pb-4 sm:pb-6 flex-1 space-y-3 sm:space-y-4">
                   {/* Frequency Badge */}
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-blue-500 shrink-0" />
                     <div>
-                      <p className="text-xs text-primary/60">Frequency</p>
+                      <p className="text-xs text-primary/80">Frequency</p>
                       <p className="text-sm font-semibold text-primary capitalize">
                         {habit.frequency}
                       </p>
@@ -131,7 +165,7 @@ export default function HabitsPage() {
                   <div className="flex items-center gap-2">
                     <Flame className="h-4 w-4 text-orange-500 shrink-0" />
                     <div>
-                      <p className="text-xs text-primary/60">Days</p>
+                      <p className="text-xs text-primary/80">Days</p>
                       <p className="text-sm font-semibold text-primary">
                         {habit.days.join(", ")}
                       </p>
@@ -142,7 +176,7 @@ export default function HabitsPage() {
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-green-500 shrink-0" />
                     <div>
-                      <p className="text-xs text-primary/60">Time</p>
+                      <p className="text-xs text-primary/80">Time</p>
                       <p className="text-sm font-semibold text-primary">{habit.time}</p>
                     </div>
                   </div>
@@ -176,7 +210,8 @@ export default function HabitsPage() {
                 </div>
               </Card>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

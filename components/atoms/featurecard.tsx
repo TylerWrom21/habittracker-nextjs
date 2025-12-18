@@ -12,7 +12,7 @@ export default function FeatureCard({ icon: Icon, title, description }: FeatureC
       <Icon className="w-10 h-10 text-primary" />
       <div className="flex flex-col gap-1">
         <h3 className="text-primary text-lg font-bold">{title}</h3>
-        <p className="text-primary/70 text-sm">{description}</p>
+        <p className="text-primary/80 text-sm">{description}</p>
       </div>
     </div>
   );

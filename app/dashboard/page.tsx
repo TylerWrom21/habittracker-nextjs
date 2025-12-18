@@ -108,7 +108,7 @@ export default function Dashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex-1">
           <h1 className="text-2xl sm:text-3xl font-bold text-primary">Dashboard</h1>
-          <p className="text-primary/70 text-xs sm:text-sm mt-1">Welcome back! Here&apos;s your habit overview</p>
+          <p className="text-primary/80 text-xs sm:text-sm mt-1">Welcome back! Here&apos;s your habit overview</p>
         </div>
         <Link href="/habits/new" className="w-full sm:w-auto">
           <Button className="w-full sm:w-auto">Add New Habit</Button>
@@ -123,12 +123,12 @@ export default function Dashboard() {
             <CardHeader className="pb-1 sm:pb-2">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-xs sm:text-sm font-medium">Total Habits</CardTitle>
-                <Target className="h-3 w-3 sm:h-4 sm:w-4 text-primary/60 shrink-0" />
+                <Target className="h-3 w-3 sm:h-4 sm:w-4 text-primary/80 shrink-0" />
               </div>
             </CardHeader>
             <div className="px-4 sm:px-6 pb-2 sm:pb-4">
               <div className="text-xl sm:text-2xl font-bold text-primary">{stats?.totalHabits || 0}</div>
-              <p className="text-xs text-primary/60 mt-0.5 sm:mt-1">Active habits</p>
+              <p className="text-xs text-primary/80 mt-0.5 sm:mt-1">Active habits</p>
             </div>
           </Card>
         </Link>
@@ -143,7 +143,7 @@ export default function Dashboard() {
           </CardHeader>
           <div className="px-4 sm:px-6 pb-2 sm:pb-4">
             <div className="text-xl sm:text-2xl font-bold text-primary">{stats?.completedToday || 0}</div>
-            <p className="text-xs text-primary/60 mt-0.5 sm:mt-1">Habits completed</p>
+            <p className="text-xs text-primary/80 mt-0.5 sm:mt-1">Habits completed</p>
           </div>
         </Card>
 
@@ -157,7 +157,7 @@ export default function Dashboard() {
           </CardHeader>
           <div className="px-4 sm:px-6 pb-2 sm:pb-4">
             <div className="text-xl sm:text-2xl font-bold text-primary">{stats?.thisWeekCompletions || 0}</div>
-            <p className="text-xs text-primary/60 mt-0.5 sm:mt-1">Total completions</p>
+            <p className="text-xs text-primary/80 mt-0.5 sm:mt-1">Total completions</p>
           </div>
         </Card>
 
@@ -171,7 +171,7 @@ export default function Dashboard() {
           </CardHeader>
           <div className="px-4 sm:px-6 pb-2 sm:pb-4">
             <div className="text-xl sm:text-2xl font-bold text-primary">{stats?.totalStreak || 0}</div>
-            <p className="text-xs text-primary/60 mt-0.5 sm:mt-1">Days maintained</p>
+            <p className="text-xs text-primary/80 mt-0.5 sm:mt-1">Days maintained</p>
           </div>
         </Card>
 
@@ -185,7 +185,7 @@ export default function Dashboard() {
           </CardHeader>
           <div className="px-4 sm:px-6 pb-2 sm:pb-4">
             <div className="text-xl sm:text-2xl font-bold text-primary">{stats?.longestStreak || 0}</div>
-            <p className="text-xs text-primary/60 mt-0.5 sm:mt-1">Personal record</p>
+            <p className="text-xs text-primary/80 mt-0.5 sm:mt-1">Personal record</p>
           </div>
         </Card>
       </div>
@@ -197,7 +197,7 @@ export default function Dashboard() {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg sm:text-xl">This Week&apos;s Progress</CardTitle>
-              <CardDescription className="text-xs sm:text-sm">Your habit completion by day</CardDescription>
+              <CardDescription className="text-xs sm:text-sm text-primary">Your habit completion by day</CardDescription>
             </CardHeader>
             <div className="px-4 sm:px-6 pb-4 sm:pb-6">
               <div className="space-y-3 sm:space-y-4">
@@ -206,7 +206,7 @@ export default function Dashboard() {
                     <div className="flex justify-between items-center">
                       <div>
                         <h3 className="text-primary font-medium text-xs sm:text-sm">{habit.name}</h3>
-                        <p className="text-primary/60 text-xs">
+                        <p className="text-primary/80 text-xs">
                           {habit.completedDays} of 7 days completed
                         </p>
                       </div>
@@ -232,7 +232,7 @@ export default function Dashboard() {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg sm:text-xl">Active Streaks</CardTitle>
-              <CardDescription className="text-xs sm:text-sm">Your best performing habits</CardDescription>
+              <CardDescription className="text-xs sm:text-sm text-primary">Your best performing habits</CardDescription>
             </CardHeader>
             <div className="px-4 sm:px-6 pb-4 sm:pb-6">
               <div className="space-y-2 sm:space-y-3">
@@ -247,7 +247,7 @@ export default function Dashboard() {
                         <p className="text-primary font-medium text-xs sm:text-sm truncate">
                           {streak.habitName}
                         </p>
-                        <p className="text-primary/60 text-xs">
+                        <p className="text-primary/80 text-xs">
                           {streak.currentStreak} day streak
                         </p>
                       </div>
@@ -257,7 +257,7 @@ export default function Dashboard() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-primary/60 text-xs sm:text-sm">No active streaks yet. Start completing habits!</p>
+                  <p className="text-primary/80 text-xs sm:text-sm">No active streaks yet. Start completing habits!</p>
                 )}
               </div>
             </div>
@@ -269,7 +269,7 @@ export default function Dashboard() {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg sm:text-xl">Weekly Overview</CardTitle>
-          <CardDescription className="text-xs sm:text-sm">Completion overview for this week</CardDescription>
+          <CardDescription className="text-xs sm:text-sm text-primary">Completion overview for this week</CardDescription>
         </CardHeader>
         <div className="px-2 sm:px-6 pb-4 sm:pb-6">
           <div className="grid grid-cols-7 gap-1 sm:gap-2">
@@ -295,8 +295,8 @@ export default function Dashboard() {
                   <div className="w-full aspect-square flex items-center justify-center bg-muted-foreground/20 rounded-lg border border-muted-foreground/30">
                     <span className="text-primary font-bold text-sm sm:text-lg">{dayEntries}</span>
                   </div>
-                  <span className="text-primary/60 text-xs hidden sm:inline">{month}-{dateNum}</span>
-                  <span className="text-primary/60 text-xs inline sm:hidden">{dateNum}</span>
+                  <span className="text-primary/80 text-xs hidden sm:inline">{month}-{dateNum}</span>
+                  <span className="text-primary/80 text-xs inline sm:hidden">{dateNum}</span>
                 </div>
               );
             })}
@@ -308,7 +308,7 @@ export default function Dashboard() {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg sm:text-xl">Recommendations</CardTitle>
-          <CardDescription className="text-xs sm:text-sm">Tips to improve your habit tracking</CardDescription>
+          <CardDescription className="text-xs sm:text-sm text-primary">Tips to improve your habit tracking</CardDescription>
         </CardHeader>
         <div className="px-4 sm:px-6 pb-4 sm:pb-6">
           <div className="space-y-2 sm:space-y-3">
@@ -317,7 +317,7 @@ export default function Dashboard() {
                 <CheckCircle2 className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-primary font-medium text-xs sm:text-sm">Complete today&apos;s habits</p>
-                  <p className="text-primary/60 text-xs">You haven&apos;t completed any habits today. Start with one!</p>
+                  <p className="text-primary/80 text-xs">You haven&apos;t completed any habits today. Start with one!</p>
                 </div>
               </div>
             )}
@@ -327,7 +327,7 @@ export default function Dashboard() {
                 <TrendingUp className="h-5 w-5 text-yellow-500 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-primary font-medium text-xs sm:text-sm">Diversify your habits</p>
-                  <p className="text-primary/60 text-xs">
+                  <p className="text-primary/80 text-xs">
                     Some habits haven&apos;t been completed this week. Try to balance them out.
                   </p>
                 </div>
@@ -339,7 +339,7 @@ export default function Dashboard() {
                 <Target className="h-5 w-5 text-green-500 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-primary font-medium text-xs sm:text-sm">Create your first habit</p>
-                  <p className="text-primary/60 text-xs">Start building good habits today. Click &quot;Add New Habit&quot; to begin.</p>
+                  <p className="text-primary/80 text-xs">Start building good habits today. Click &quot;Add New Habit&quot; to begin.</p>
                 </div>
               </div>
             )}
@@ -349,7 +349,7 @@ export default function Dashboard() {
                 <Award className="h-5 w-5 text-green-500 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-primary font-medium text-xs sm:text-sm">Great consistency!</p>
-                  <p className="text-primary/60 text-xs">
+                  <p className="text-primary/80 text-xs">
                     Keep up the momentum. You&apos;re making great progress on your habits!
                   </p>
                 </div>

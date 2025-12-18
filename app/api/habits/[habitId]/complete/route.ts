@@ -108,22 +108,18 @@ export async function POST(
         lastCompleted: date,
       });
     } else {
-      // Check if completing today or yesterday
-      if (date === todayString) {
+      // Check if completing on a consecutive day
+      const isConsecutive = streak.lastCompleted === yesterdayString;
+      
+      if (isConsecutive) {
+        // Continue the streak
         streak.currentStreak += 1;
-        streak.lastCompleted = date;
-      } else if (date === yesterdayString && streak.lastCompleted === yesterdayString) {
-        streak.currentStreak += 1;
-        streak.lastCompleted = date;
-      } else if (date !== yesterdayString && date !== todayString) {
-        // Reset streak if not consecutive
-        streak.currentStreak = 1;
-        streak.lastCompleted = date;
       } else {
-        // Start new streak
+        // Reset streak if there's a gap (not consecutive)
         streak.currentStreak = 1;
-        streak.lastCompleted = date;
       }
+      
+      streak.lastCompleted = date;
 
       // Update longest streak
       if (streak.currentStreak > streak.longestStreak) {

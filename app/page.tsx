@@ -71,7 +71,7 @@ export default function Home() {
 						/>
 					</div>
 				</section>
-				<section className="py-28 bg-muted/30 animate-fade-in">
+				<section className="py-28 animate-fade-in">
 					<div className="max-w-6xl mx-auto px-4">
 						<div className="flex flex-col pb-5">
 							<h2 className="text-primary text-4xl lg:text-5xl font-black tracking-tight max-w-2xl mx-auto">
@@ -87,42 +87,42 @@ export default function Home() {
 									<TrendingUp className="w-8 h-8 text-primary" />
 								</div>
 								<h3 className="text-primary text-xl font-semibold mb-2">Boost Productivity</h3>
-								<p className="text-primary/70">Turn small actions into big results. Consistent habit tracking leads to measurable improvements in your daily productivity.</p>
+								<p className="text-primary/80">Turn small actions into big results. Consistent habit tracking leads to measurable improvements in your daily productivity.</p>
 							</div>
 							<div className="text-center p-5 rounded-lg border border-muted-foreground">
 								<div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
 									<Flame className="w-8 h-8 text-primary" />
 								</div>
 								<h3 className="text-primary text-xl font-semibold mb-2">Build Momentum</h3>
-								<p className="text-primary/70">Watch your streaks grow and maintain motivation through visual progress tracking and achievement milestones.</p>
+								<p className="text-primary/80">Watch your streaks grow and maintain motivation through visual progress tracking and achievement milestones.</p>
 							</div>
 							<div className="text-center p-5 rounded-lg border border-muted-foreground">
 								<div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
 									<CheckCircle className="w-8 h-8 text-primary" />
 								</div>
 								<h3 className="text-primary text-xl font-semibold mb-2">Improve Discipline</h3>
-								<p className="text-primary/70">Develop stronger self-control and willpower by consistently following through on your commitments.</p>
+								<p className="text-primary/80">Develop stronger self-control and willpower by consistently following through on your commitments.</p>
 							</div>
 							<div className="text-center p-5 rounded-lg border border-muted-foreground">
 								<div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
 									<Heart className="w-8 h-8 text-primary" />
 								</div>
 								<h3 className="text-primary text-xl font-semibold mb-2">Better Health</h3>
-								<p className="text-primary/70">Establish routines for exercise, nutrition, and sleep that lead to improved physical and mental well-being.</p>
+								<p className="text-primary/80">Establish routines for exercise, nutrition, and sleep that lead to improved physical and mental well-being.</p>
 							</div>
 							<div className="text-center p-5 rounded-lg border border-muted-foreground">
 								<div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
 									<Goal className="w-8 h-8 text-primary" />
 								</div>
 								<h3 className="text-primary text-xl font-semibold mb-2">Achieve Goals</h3>
-								<p className="text-primary/70">Break down big objectives into manageable daily habits and track your progress towards long-term success.</p>
+								<p className="text-primary/80">Break down big objectives into manageable daily habits and track your progress towards long-term success.</p>
 							</div>
 							<div className="text-center p-5 rounded-lg border border-muted-foreground">
 								<div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
 									<Brain className="w-8 h-8 text-primary" />
 								</div>
 								<h3 className="text-primary text-xl font-semibold mb-2">Mindful Living</h3>
-								<p className="text-primary/70">Cultivate awareness and intentionality in your daily life through consistent habit formation and reflection.</p>
+								<p className="text-primary/80">Cultivate awareness and intentionality in your daily life through consistent habit formation and reflection.</p>
 							</div>
 						</div>
 					</div>
@@ -176,7 +176,7 @@ export default function Home() {
 									{i + 1}
 								</div>
 								<p className="text-primary text-lg font-medium">{s.title}</p>
-								<p className="text-primary/70 text-base max-w-md">{s.desc}</p>
+								<p className="text-primary/80 text-base max-w-md">{s.desc}</p>
 								{i < steps.length - 1 && (
 									<div className="w-0.5 bg-muted-foreground h-8 mt-2" />
 								)}

@@ -220,7 +220,7 @@ export default function SettingsPage() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="text-primary text-lg font-semibold mb-2">Loading settings...</div>
-          <div className="text-primary/60 text-sm">Please wait</div>
+          <div className="text-primary/80 text-sm">Please wait</div>
         </div>
       </div>
     );
@@ -238,7 +238,7 @@ export default function SettingsPage() {
         </Link>
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-primary">Settings</h1>
-          <p className="text-primary/60 text-sm mt-1">Manage your account and preferences</p>
+          <p className="text-primary/80 text-sm mt-1">Manage your account and preferences</p>
         </div>
       </div>
 
@@ -249,7 +249,7 @@ export default function SettingsPage() {
             <UserIcon className="h-5 w-5 text-blue-500" />
             <div>
               <CardTitle>Profile Settings</CardTitle>
-              <CardDescription>Update your personal information</CardDescription>
+              <CardDescription className="text-primary">Update your personal information</CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -267,7 +267,7 @@ export default function SettingsPage() {
               placeholder="Enter your full name"
               className="w-full rounded-lg text-primary border border-muted-foreground transition hover:bg-muted/80 px-4 py-2 sm:py-3 font-normal placeholder:text-ring focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
-            <p className="text-xs text-primary/60">Maximum 60 characters</p>
+            <p className="text-xs text-primary/80">Maximum 60 characters</p>
           </div>
 
           {/* Email Field */}
@@ -276,7 +276,7 @@ export default function SettingsPage() {
               Email Address
             </label>
             <div className="flex items-center gap-2">
-              <Mail className="h-5 w-5 text-primary/60 shrink-0" />
+              <Mail className="h-5 w-5 text-primary/80 shrink-0" />
               <Input
                 type="email"
                 value={userSettings.email}
@@ -285,7 +285,7 @@ export default function SettingsPage() {
                 className="flex-1 rounded-lg text-primary border border-muted-foreground transition hover:bg-muted/80 px-4 py-2 sm:py-3 font-normal placeholder:text-ring focus:outline-none focus:ring-2 focus:ring-primary/50"
               />
             </div>
-            <p className="text-xs text-primary/60">Used for login and notifications</p>
+            <p className="text-xs text-primary/80">Used for login and notifications</p>
           </div>
 
           {/* Save Button */}
@@ -309,7 +309,7 @@ export default function SettingsPage() {
             <Lock className="h-5 w-5 text-red-500" />
             <div>
               <CardTitle>Security</CardTitle>
-              <CardDescription>Change your password</CardDescription>
+              <CardDescription className="text-primary">Change your password</CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -341,7 +341,7 @@ export default function SettingsPage() {
                     current: !prev.current,
                   }))
                 }
-                className="pr-4 text-primary/60 hover:text-primary transition"
+                className="pr-4 text-primary/80 hover:text-primary transition"
               >
                 {showPasswords.current ? (
                   <EyeOff className="h-4 w-4" />
@@ -378,7 +378,7 @@ export default function SettingsPage() {
                     new: !prev.new,
                   }))
                 }
-                className="pr-4 text-primary/60 hover:text-primary transition"
+                className="pr-4 text-primary/80 hover:text-primary transition"
               >
                 {showPasswords.new ? (
                   <EyeOff className="h-4 w-4" />
@@ -387,7 +387,7 @@ export default function SettingsPage() {
                 )}
               </button>
             </div>
-            <p className="text-xs text-primary/60">Minimum 8 characters</p>
+            <p className="text-xs text-primary/80">Minimum 8 characters</p>
           </div>
 
           {/* Confirm Password */}
@@ -416,7 +416,7 @@ export default function SettingsPage() {
                     confirm: !prev.confirm,
                   }))
                 }
-                className="pr-4 text-primary/60 hover:text-primary transition"
+                className="pr-4 text-primary/80 hover:text-primary transition"
               >
                 {showPasswords.confirm ? (
                   <EyeOff className="h-4 w-4" />
@@ -451,7 +451,7 @@ export default function SettingsPage() {
             </div>
             <div>
               <CardTitle className="text-destructive">Danger Zone</CardTitle>
-              <CardDescription>Permanently delete your account and all data</CardDescription>
+              <CardDescription className="text-primary">Permanently delete your account and all data</CardDescription>
             </div>
           </div>
         </CardHeader>
