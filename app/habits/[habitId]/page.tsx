@@ -200,7 +200,15 @@ export default function HabitTrackingPage() {
     
     const dateObj = new Date(dateString + "T00:00:00Z");
     const dayIndex = dateObj.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const dayNames = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
     const dayName = dayNames[dayIndex];
     
     if (habit.frequency === "daily") {

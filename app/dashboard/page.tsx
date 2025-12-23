@@ -26,6 +26,7 @@ interface HabitPerformance {
   name: string;
   frequency: string;
   completedDays: number;
+  maxDays: number;
   entries: HabitEntry[];
 }
 
@@ -191,15 +192,15 @@ export default function Dashboard() {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-max">
         {/* Weekly Progress */}
         <div className="lg:col-span-2">
-          <Card>
+          <Card className="h-full flex flex-col">
             <CardHeader>
               <CardTitle className="text-lg sm:text-xl">This Week&apos;s Progress</CardTitle>
               <CardDescription className="text-xs sm:text-sm text-primary">Your habit completion by day</CardDescription>
             </CardHeader>
-            <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+            <div className="px-4 sm:px-6 pb-4 sm:pb-6 grow">
               <div className="space-y-3 sm:space-y-4">
                 {habitPerformance.slice(0, 5).map((habit) => (
                   <div key={habit._id} className="space-y-1.5 sm:space-y-2">
@@ -207,17 +208,17 @@ export default function Dashboard() {
                       <div>
                         <h3 className="text-primary font-medium text-xs sm:text-sm">{habit.name}</h3>
                         <p className="text-primary/80 text-xs">
-                          {habit.completedDays} of 7 days completed
+                          {habit.completedDays} of {habit.maxDays} days completed
                         </p>
                       </div>
                       <span className="text-primary font-bold text-sm sm:text-base">
-                        {Math.round((habit.completedDays / 7) * 100)}%
+                        {Math.round((habit.completedDays / habit.maxDays) * 100)}%
                       </span>
                     </div>
                     <div className="w-full bg-muted-foreground/20 rounded-full h-2 overflow-hidden">
                       <div
                         className="bg-linear-to-r from-blue-500 to-purple-500 h-full rounded-full transition-all"
-                        style={{ width: `${(habit.completedDays / 7) * 100}%` }}
+                        style={{ width: `${(habit.completedDays / habit.maxDays) * 100}%` }}
                       />
                     </div>
                   </div>
@@ -229,13 +230,13 @@ export default function Dashboard() {
 
         {/* Active Streaks */}
         <div>
-          <Card>
+          <Card className="h-full flex flex-col">
             <CardHeader>
               <CardTitle className="text-lg sm:text-xl">Active Streaks</CardTitle>
               <CardDescription className="text-xs sm:text-sm text-primary">Your best performing habits</CardDescription>
             </CardHeader>
-            <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-              <div className="space-y-2 sm:space-y-3">
+            <div className="px-4 sm:px-6 pb-4 sm:pb-6 grow flex flex-col">
+              <div className="space-y-2 sm:space-y-3 grow">
                 {streakData.length > 0 ? (
                   streakData.map((streak) => (
                     <div

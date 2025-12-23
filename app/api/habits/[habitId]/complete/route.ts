@@ -52,7 +52,15 @@ export async function POST(
     // Validate day of week for weekly and custom habits
     const dateObj = new Date(date + "T00:00:00Z");
     const dayIndex = dateObj.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const dayNames = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
     const dayName = dayNames[dayIndex];
 
     if (habit.frequency === "weekly" || habit.frequency === "custom") {
@@ -89,7 +97,6 @@ export async function POST(
 
     // Update streak
     const today = new Date();
-    const todayString = today.toISOString().split("T")[0];
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
     const yesterdayString = yesterday.toISOString().split("T")[0];

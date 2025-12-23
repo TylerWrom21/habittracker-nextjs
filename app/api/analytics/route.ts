@@ -62,18 +62,28 @@ export async function GET(req: Request) {
     const thisWeekCompletions = weekEntries.length;
 
     const longestStreak = streaks.length > 0 ? Math.max(...streaks.map((s) => s.longestStreak)) : 0;
-    const totalStreak = streaks.reduce((sum, s) => sum + s.currentStreak, 0);
+    const totalStreak = streaks.length > 0 ? Math.max(...streaks.map((s) => s.currentStreak)) : 0;
 
     // Get habit performance this week
     const habitPerformance = habits.map((habit: any) => {
       const habitEntries = weekEntries.filter(
         (e) => e.habitId.toString() === habit._id.toString()
       );
+      
+      // Calculate max completions based on frequency
+      let maxCompletions = 7; // default for daily
+      if (habit.frequency === "weekly") {
+        maxCompletions = 1; // weekly habits can be completed max 1 time per week
+      } else if (habit.frequency === "custom") {
+        maxCompletions = habit.days.length; // custom habits - max is the number of selected days
+      }
+      
       return {
         _id: habit._id,
         name: habit.name,
         frequency: habit.frequency,
         completedDays: habitEntries.length,
+        maxDays: maxCompletions,
         entries: habitEntries,
       };
     });
