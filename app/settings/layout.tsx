@@ -6,8 +6,8 @@ import { useSession } from "@/hooks/useSessions";
 import { Dumbbell, Settings, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import DashboardLoading from "@/app/dashboard/loading";
 import { showToast } from "@/components/atoms/toast";
+import SettingsLoading from "./loading";
 
 export default function DashboardLayout({
 	children,
@@ -46,7 +46,7 @@ export default function DashboardLayout({
 	     <div className="pt-16 md:pl-[20vw]">
 					<div className="p-6">
 						{loading ? (
-							<DashboardLoading />
+							<SettingsLoading />
 						) : (
 							children
 						)}

@@ -58,7 +58,7 @@ export default function LoginPage() {
               </div>
             </div>
             <h1 className="text-2xl font-bold text-primary mb-2">Welcome Back</h1>
-            <p className="text-sm text-muted-foreground">Sign in to your account</p>
+            <p className="text-sm text-secondary-foreground/70">Sign in to your account</p>
           </div>
 
           {/* Form */}
@@ -69,14 +69,14 @@ export default function LoginPage() {
                 Email Address
               </label>
               <div className="flex items-center gap-3 border border-muted-foreground rounded-lg px-4 py-3 focus-within:ring-2 focus-within:ring-primary/50 focus-within:border-primary transition">
-                <Mail className="h-5 w-5 text-muted-foreground" />
+                <Mail className="h-5 w-5 text-secondary-foreground/70" />
                 <input
                   name="email"
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="you@example.com"
-                  className="flex-1 bg-transparent text-primary placeholder:text-muted-foreground focus:outline-none"
+                  className="flex-1 bg-transparent text-primary placeholder:text-secondary-foreground/70 focus:outline-none"
                   required
                 />
               </div>
@@ -88,14 +88,14 @@ export default function LoginPage() {
                 Password
               </label>
               <div className="flex items-center gap-3 border border-muted-foreground rounded-lg px-4 py-3 focus-within:ring-2 focus-within:ring-primary/50 focus-within:border-primary transition">
-                <Lock className="h-5 w-5 text-muted-foreground" />
+                <Lock className="h-5 w-5 text-secondary-foreground/70" />
                 <input
                   name="password"
                   type="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="flex-1 bg-transparent text-primary placeholder:text-muted-foreground focus:outline-none"
+                  className="flex-1 bg-transparent text-primary placeholder:text-secondary-foreground/70 focus:outline-none"
                   required
                 />
               </div>
@@ -114,12 +114,12 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="my-6 flex items-center gap-3">
             <div className="flex-1 h-px bg-border"></div>
-            <span className="text-xs text-muted-foreground">OR</span>
+            <span className="text-xs text-secondary-foreground/70">OR</span>
             <div className="flex-1 h-px bg-border"></div>
           </div>
 
           {/* Register Link */}
-          <p className="text-center text-sm text-muted-foreground">
+          <p className="text-center text-sm text-secondary-foreground/70">
             Don&apos;t have an account?{" "}
             <Link
               href="/register"
@@ -131,7 +131,7 @@ export default function LoginPage() {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-xs text-muted-foreground mt-6">
+        <p className="text-center text-xs text-secondary-foreground/70 mt-6">
           Protected by secure authentication
         </p>
       </div>

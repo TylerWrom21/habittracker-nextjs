@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import DashboardLoading from "./loading";
 
 interface Statistics {
   totalHabits: number;
@@ -79,7 +80,8 @@ export default function Dashboard() {
   };
 
   if (loading) {
-    return <div className="text-primary text-center py-8">Loading dashboard...</div>;
+    // return <div className="text-primary text-center py-8">Loading dashboard...</div>;
+    return <DashboardLoading />;
   }
 
   if (error) {

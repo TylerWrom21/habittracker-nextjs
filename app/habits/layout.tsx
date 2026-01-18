@@ -6,8 +6,8 @@ import { useSession } from "@/hooks/useSessions";
 import { Dumbbell, Settings, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import DashboardLoading from "../dashboard/loading";
 import { showToast } from "@/components/atoms/toast";
+import HabitsLoading from "./loading";
 
 export default function HabitsLayout({
 	children,
@@ -46,7 +46,7 @@ export default function HabitsLayout({
 				]}
 			/>
 			<div className="pt-16 md:pl-[20vw]">
-				<div className="p-4 sm:p-6">{loading ? <DashboardLoading /> : children}</div>
+				<div className="p-4 sm:p-6">{loading ? <HabitsLoading /> : children}</div>
 			</div>
 		</div>
 	);

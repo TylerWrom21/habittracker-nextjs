@@ -39,7 +39,7 @@ export default function Home() {
 					</a>
 				</div>
 			</section>
-			<main className="px-16">
+			<main className="px-0 md:px-16">
 				<section className="flex flex-col py-16 text-center animate-fade-in max-w-6xl mx-auto px-4">
 					<div className="flex flex-col pb-5">
 						<h2 className="text-primary text-4xl lg:text-5xl font-black tracking-tight max-w-2xl mx-auto">
@@ -74,7 +74,7 @@ export default function Home() {
 				<section className="py-28 animate-fade-in">
 					<div className="max-w-6xl mx-auto px-4">
 						<div className="flex flex-col pb-5">
-							<h2 className="text-primary text-4xl lg:text-5xl font-black tracking-tight max-w-2xl mx-auto">
+							<h2 className="text-primary text-4xl lg:text-5xl font-black tracking-tight max-w-2xl mx-auto text-center">
 								The Benefits of Habit Tracking
 							</h2>
 							<p className="text-primary/80 text-center text-base lg:text-lg max-w-2xl mx-auto">
