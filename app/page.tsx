@@ -127,7 +127,7 @@ export default function Home() {
 						</div>
 					</div>
 				</section>
-				<section className="py-16 bg-background animate-fade-in">
+				{/* <section className="py-16 bg-background animate-fade-in">
 					<div className="max-w-6xl mx-auto">
 						<div className="flex flex-col pb-5">
 							<h2 className="text-primary text-4xl lg:text-5xl font-black tracking-tight max-w-2xl mx-auto">
@@ -158,7 +158,7 @@ export default function Home() {
 							</div>
 						</div>
 					</div>
-				</section>
+				</section> */}
 				<section className="py-16 max-w-6xl mx-auto px-4 flex flex-col">
 					<div className="flex flex-col pb-5">
 						<h2 className="text-primary text-4xl lg:text-5xl font-black tracking-tight max-w-2xl mx-auto">

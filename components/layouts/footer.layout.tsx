@@ -6,7 +6,7 @@ export default function Footer() {
           © 2024 Discipline. All rights reserved.
         </p>
 
-        <div className="flex gap-6 text-sm">
+        {/* <div className="flex gap-6 text-sm">
           <a className="text-primary/80 hover:text-primary transition-colors" href="#">
             About
           </a>
@@ -16,7 +16,7 @@ export default function Footer() {
           <a className="text-primary/80 hover:text-primary transition-colors" href="#">
             Contact
           </a>
-        </div>
+        </div> */}
       </div>
     </footer>
   );
