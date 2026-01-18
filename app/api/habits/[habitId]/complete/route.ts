@@ -39,6 +39,19 @@ export async function POST(
       );
     }
 
+    // Ensure user can only complete tasks for today
+    const today = new Date();
+    const todayYear = today.getFullYear();
+    const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
+    const todayDay = String(today.getDate()).padStart(2, "0");
+    const todayString = `${todayYear}-${todayMonth}-${todayDay}`;
+    if (date !== todayString) {
+      return NextResponse.json(
+        { error: "You can only complete tasks for today" },
+        { status: 400 }
+      );
+    }
+
     // Check if habit exists and belongs to user
     const habit = await Habit.findOne({
       _id: habitId,
@@ -50,8 +63,8 @@ export async function POST(
     }
 
     // Validate day of week for weekly and custom habits
-    const dateObj = new Date(date + "T00:00:00Z");
-    const dayIndex = dateObj.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const dateObj = new Date(date + "T00:00:00");
+    const dayIndex = dateObj.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
     const dayNames = [
       "Sunday",
       "Monday",
@@ -96,10 +109,12 @@ export async function POST(
     });
 
     // Update streak
-    const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
-    const yesterdayString = yesterday.toISOString().split("T")[0];
+    const yesterdayYear = yesterday.getFullYear();
+    const yesterdayMonth = String(yesterday.getMonth() + 1).padStart(2, "0");
+    const yesterdayDay = String(yesterday.getDate()).padStart(2, "0");
+    const yesterdayString = `${yesterdayYear}-${yesterdayMonth}-${yesterdayDay}`;
 
     let streak = await Streak.findOne({
       habitId,

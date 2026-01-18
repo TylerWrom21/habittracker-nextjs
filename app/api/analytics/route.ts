@@ -33,7 +33,10 @@ export async function GET(req: Request) {
 
     // Get today's date
     const today = new Date();
-    const todayString = today.toISOString().split("T")[0];
+    const todayYear = today.getFullYear();
+    const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
+    const todayDay = String(today.getDate()).padStart(2, "0");
+    const todayString = `${todayYear}-${todayMonth}-${todayDay}`;
 
     // Get this week's entries (Sunday to Saturday)
     const weekStart = new Date(today);
@@ -41,8 +44,15 @@ export async function GET(req: Request) {
     const weekEnd = new Date(weekStart);
     weekEnd.setDate(weekStart.getDate() + 6);
 
-    const weekStartString = weekStart.toISOString().split("T")[0];
-    const weekEndString = weekEnd.toISOString().split("T")[0];
+    const weekStartYear = weekStart.getFullYear();
+    const weekStartMonth = String(weekStart.getMonth() + 1).padStart(2, "0");
+    const weekStartDay = String(weekStart.getDate()).padStart(2, "0");
+    const weekStartString = `${weekStartYear}-${weekStartMonth}-${weekStartDay}`;
+
+    const weekEndYear = weekEnd.getFullYear();
+    const weekEndMonth = String(weekEnd.getMonth() + 1).padStart(2, "0");
+    const weekEndDay = String(weekEnd.getDate()).padStart(2, "0");
+    const weekEndString = `${weekEndYear}-${weekEndMonth}-${weekEndDay}`;
 
     // Get entries for this week
     const weekEntries = await HabitEntry.find({

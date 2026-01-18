@@ -115,13 +115,19 @@ export default function HabitTrackingPage() {
 
   const completeToday = () => {
     const today = new Date();
-    const todayString = today.toISOString().split("T")[0];
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    const todayString = `${year}-${month}-${day}`;
     completeHabitForDate(todayString);
   };
 
   const isCompletedToday = () => {
     const today = new Date();
-    const todayString = today.toISOString().split("T")[0];
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    const todayString = `${year}-${month}-${day}`;
     return entries.some((e) => e.date === todayString);
   };
 
@@ -130,10 +136,13 @@ export default function HabitTrackingPage() {
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth();
-    const todayString = today.toISOString().split("T")[0];
+    const todayYear = today.getFullYear();
+    const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
+    const todayDay = String(today.getDate()).padStart(2, "0");
+    const todayString = `${todayYear}-${todayMonth}-${todayDay}`;
 
-    const firstDay = new Date(Date.UTC(year, month, 1));
-    const lastDay = new Date(Date.UTC(year, month + 1, 0));
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
 
     // Get starting day of week (0 = Sunday, so we need to adjust for Monday start)
@@ -147,8 +156,11 @@ export default function HabitTrackingPage() {
     // Add empty cells for days before the month starts (from previous month)
     // We need to go back startingDayOfWeek days
     for (let i = startingDayOfWeek; i > 0; i--) {
-      const prevDate = new Date(Date.UTC(year, month, 1 - i));
-      const dateString = prevDate.toISOString().split("T")[0];
+      const prevDate = new Date(year, month, 1 - i);
+      const prevYear = prevDate.getFullYear();
+      const prevMonth = String(prevDate.getMonth() + 1).padStart(2, "0");
+      const prevDay = String(prevDate.getDate()).padStart(2, "0");
+      const dateString = `${prevYear}-${prevMonth}-${prevDay}`;
       const actualMonth = prevDate.getMonth();
       days.push({
         date: dateString,
@@ -161,8 +173,11 @@ export default function HabitTrackingPage() {
 
     // Add days of the current month
     for (let i = 1; i <= daysInMonth; i++) {
-      const date = new Date(Date.UTC(year, month, i));
-      const dateString = date.toISOString().split("T")[0];
+      const date = new Date(year, month, i);
+      const dateYear = date.getFullYear();
+      const dateMonth = String(date.getMonth() + 1).padStart(2, "0");
+      const dateDay = String(date.getDate()).padStart(2, "0");
+      const dateString = `${dateYear}-${dateMonth}-${dateDay}`;
       const completed = entries.some((e) => e.date === dateString);
       const isToday = dateString === todayString;
       const actualMonth = date.getMonth();
@@ -179,8 +194,11 @@ export default function HabitTrackingPage() {
     // Add empty cells for days after the month ends (from next month)
     const remainingCells = 42 - days.length; // 6 rows * 7 days
     for (let i = 1; i <= remainingCells; i++) {
-      const nextDate = new Date(Date.UTC(year, month + 1, i));
-      const dateString = nextDate.toISOString().split("T")[0];
+      const nextDate = new Date(year, month + 1, i);
+      const nextYear = nextDate.getFullYear();
+      const nextMonth = String(nextDate.getMonth() + 1).padStart(2, "0");
+      const nextDay = String(nextDate.getDate()).padStart(2, "0");
+      const dateString = `${nextYear}-${nextMonth}-${nextDay}`;
       const actualMonth = nextDate.getMonth();
       days.push({
         date: dateString,
@@ -262,7 +280,10 @@ export default function HabitTrackingPage() {
   const monthName = new Date().toLocaleString("en-US", { month: "long" });
   const year = new Date().getFullYear();
   const today = new Date();
-  const todayString = today.toISOString().split("T")[0];
+  const todayYear = today.getFullYear();
+  const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
+  const todayDay = String(today.getDate()).padStart(2, "0");
+  const todayString = `${todayYear}-${todayMonth}-${todayDay}`;
   const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   return (

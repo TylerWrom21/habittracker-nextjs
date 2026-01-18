@@ -99,9 +99,12 @@ export default function Dashboard() {
   const weekDays = days.map((day, index) => {
     const date = new Date(weekStart);
     date.setDate(weekStart.getDate() + index);
+    const dateYear = date.getFullYear();
+    const dateMonth = String(date.getMonth() + 1).padStart(2, "0");
+    const dateDay = String(date.getDate()).padStart(2, "0");
     return {
       name: day,
-      date: date.toISOString().split("T")[0],
+      date: `${dateYear}-${dateMonth}-${dateDay}`,
     };
   });
 
