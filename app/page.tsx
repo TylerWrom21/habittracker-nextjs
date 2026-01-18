@@ -186,19 +186,21 @@ export default function Home() {
 				</section>
 			</main>
 			<section className="relative text-center flex items-center justify-center flex-col min-h-[60vh]">
-				<div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(120,119,198,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_80%_90%,rgba(255,255,255,0.05),transparent_50%)] w-full h-full"></div>
+				{/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(120,119,198,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_80%_90%,rgba(255,255,255,0.05),transparent_50%)] w-full h-full"></div> */}
 				<h2 className="text-primary text-3xl md:text-4xl font-bold tracking-tight">
 					Start Building Discipline Today.
 				</h2>
 
-				<p className="text-primary/80 text-base md:text-lg max-w-xl mx-auto mt-3">
+				<p className="text-primary/80 text-base md:text-lg max-w-xl mx-auto mt-3 pb-2">
 					Take the first step towards mastering your habits and owning your
 					future. It&apos;s free to get started.
 				</p>
 
-				<button className="h-12 px-5 bg-primary text-background rounded-lg font-bold text-base mt-6">
-					Sign Up Now
-				</button>
+				<a href="/login">
+						<button className="h-12 px-5 rounded-lg bg-primary text-background text-base font-bold tracking-wide cursor-pointer hover:scale-105 transition-transform duration-200">
+							Sign Up Now
+						</button>
+					</a>
 			</section>
 			<Footer />
 		</main>
