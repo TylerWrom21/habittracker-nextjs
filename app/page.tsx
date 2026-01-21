@@ -198,7 +198,7 @@ export default function Home() {
 
 				<a href="/login">
 						<button className="h-12 px-5 rounded-lg bg-primary text-background text-base font-bold tracking-wide cursor-pointer hover:scale-105 transition-transform duration-200">
-							Sign Up Now
+							Sign Up
 						</button>
 					</a>
 			</section>
