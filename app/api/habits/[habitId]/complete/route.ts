@@ -63,8 +63,8 @@ export async function POST(
     }
 
     // Validate day of week for weekly and custom habits
-    const dateObj = new Date(date + "T00:00:00");
-    const dayIndex = dateObj.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const dateObj = new Date(date + "T00:00:00Z");
+    const dayIndex = dateObj.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
     const dayNames = [
       "Sunday",
       "Monday",
