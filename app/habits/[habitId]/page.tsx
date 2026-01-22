@@ -15,6 +15,7 @@ interface Habit {
   days: string[];
   time: string;
   description: string;
+  createdAt?: string;
 }
 
 interface HabitEntry {
@@ -405,6 +406,12 @@ export default function HabitTrackingPage() {
           <div className="grid grid-cols-7 gap-1 sm:gap-2">
             {calendarDays.map((day) => {
               const dateObj = formatDateResponsive(day.date);
+              const isScheduledToday = day.isToday && isDateScheduledForHabit(day.date);
+              const canCompleteToday = day.isToday && isScheduledToday && !day.completed;
+              const isScheduledDate = isDateScheduledForHabit(day.date);
+              const habitCreatedDate = habit?.createdAt ? new Date(habit.createdAt).toISOString().split('T')[0] : null;
+              const isAfterCreation = habitCreatedDate ? day.date >= habitCreatedDate : true;
+              const isSkipped = day.isCurrentMonth && isScheduledDate && !day.completed && !day.isToday && new Date(day.date) < new Date() && isAfterCreation;
               
               return (
                 <div
@@ -413,20 +420,28 @@ export default function HabitTrackingPage() {
                   className={`aspect-square rounded-lg flex items-center justify-center font-semibold text-xs sm:text-sm transition-colors ${
                     !day.isCurrentMonth
                       ? "bg-muted/50 border border-muted-foreground/50 text-muted-foreground/80"
+                      : isSkipped
+                      ? "bg-red-500/20 border-2 border-red-500 text-red-600"
+                      : day.isToday && isScheduledToday && !day.completed
+                      ? "bg-yellow-500/20 border-2 border-yellow-500 text-yellow-600"
                       : day.completed
                       ? "bg-green-500/20 border-2 border-green-500 text-green-600"
                       : day.isToday
-                      ? "bg-blue-500/10 border-2 border-blue-500 text-primary"
+                      ? "bg-blue-500/10 border-2 border-blue-500 text-blue-600"
                       : "bg-muted-foreground/20 border-2 border-muted-foreground/30 text-primary"
                   }`}
                 >
                   {day.isCurrentMonth && day.completed ? (
                     <CheckCircle2 className="h-4 w-4" />
+                  ) : canCompleteToday ? (
+                    <div className="flex">
+                      <span className="hidden sm:block text-sm sm:text-md lg:text-lg text-center">Complete Now</span>
+                      <span className="block sm:hidden text-sm md:text-xl sm:text-lg text-center">{dateObj.minimal}</span>
+                    </div>
+                  ) : day.isToday && !isScheduledToday ? (
+                    <span className="text-sm md:text-xl sm:text-lg">{dateObj.minimal}</span>
                   ) : (
-                    <>
-                      <span className="hidden sm:inline">{dateObj.short}</span>
-                      <span className="inline sm:hidden">{dateObj.minimal}</span>
-                    </>
+                    <span className="text-sm md:text-xl sm:text-lg">{dateObj.minimal}</span>
                   )}
                 </div>
               );

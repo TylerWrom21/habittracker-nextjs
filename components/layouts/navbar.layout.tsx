@@ -83,18 +83,6 @@ export default function Navbar() {
 							<p className="text-sm">Dashboard</p>
 						</Link>
 						<Link
-							href="/settings"
-							className={`flex items-center gap-3 px-2 py-3 rounded-lg cursor-pointer transition ${
-								pathname.startsWith("/settings")
-									? "bg-muted-foreground text-primary"
-									: "hover:bg-muted text-primary"
-							}`}
-							onClick={() => setIsMenuOpen(false)}
-						>
-							<span className="material-symbols-outlined"><Settings /></span>
-							<p className="text-sm">Settings</p>
-						</Link>
-						<Link
 							href="/habits"
 							className={`flex items-center gap-3 px-2 py-3 rounded-lg cursor-pointer transition ${
 								pathname.startsWith("/habits")
@@ -105,6 +93,18 @@ export default function Navbar() {
 						>
 							<span className="material-symbols-outlined"><Dumbbell /></span>
 							<p className="text-sm">Habits</p>
+						</Link>
+						<Link
+							href="/settings"
+							className={`flex items-center gap-3 px-2 py-3 rounded-lg cursor-pointer transition ${
+								pathname.startsWith("/settings")
+									? "bg-muted-foreground text-primary"
+									: "hover:bg-muted text-primary"
+							}`}
+							onClick={() => setIsMenuOpen(false)}
+						>
+							<span className="material-symbols-outlined"><Settings /></span>
+							<p className="text-sm">Settings</p>
 						</Link>
 					</div>
 				</div>

@@ -6,7 +6,7 @@ import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/ca
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { showToast } from "@/components/atoms/toast";
-import { ArrowLeft, Save, Eye, EyeOff, Lock, Mail, User as UserIcon, Trash2 } from "lucide-react";
+import { ArrowLeft, Save, Eye, EyeOff, Lock, Mail, User as UserIcon, Trash2, LogOut } from "lucide-react";
 import Link from "next/link";
 
 interface UserSettings {
@@ -187,6 +187,19 @@ export default function SettingsPage() {
       showToast("An unexpected error occurred", "error");
     } finally {
       setPasswordChanging(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      showToast("Logged out successfully", "success");
+      setTimeout(() => router.push("/login"), 500);
+    } catch {
+      showToast("Failed to logout", "error");
     }
   };
 
@@ -442,6 +455,34 @@ export default function SettingsPage() {
         </div>
       </Card>
 
+      {/* Logout */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <div className="bg-destructive/10 p-3 rounded-lg">
+              <LogOut className="h-5 w-5 text-destructive" />
+            </div>
+            <div>
+              <CardTitle>Sign Out</CardTitle>
+              <CardDescription>Log out of your account</CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+
+        <div className="px-6 pb-6">
+          <p className="text-sm text-primary mb-4">
+            You will be signed out from all sessions on this device.
+          </p>
+          <Button
+            onClick={handleLogout}
+            className="gap-2"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign Out
+          </Button>
+        </div>
+      </Card>
+
       {/* Delete Account */}
       <Card className="border-destructive/50 bg-destructive/5">
         <CardHeader>
@@ -457,13 +498,13 @@ export default function SettingsPage() {
         </CardHeader>
 
         <div className="px-6 pb-6">
-          <p className="text-sm text-muted-foreground mb-4">
+          <p className="text-sm text-primary mb-4">
             Once you delete your account, there is no going back. Please be certain.
           </p>
           <p className="text-sm text-destructive mb-6 font-semibold">
             This will permanently delete:
           </p>
-          <ul className="text-sm text-muted-foreground space-y-2 mb-6 ml-4">
+          <ul className="text-sm text-primary space-y-2 mb-6 ml-4">
             <li>• Your account and profile</li>
             <li>• All your habits and habit data</li>
             <li>• All your tracking entries</li>
