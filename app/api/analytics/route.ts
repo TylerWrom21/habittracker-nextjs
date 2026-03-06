@@ -66,6 +66,28 @@ export async function GET(req: Request) {
     // Get all streaks
     const streaks = await Streak.find({ userId }).lean();
 
+    // Calculate yesterday's date
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const yesterdayYear = yesterday.getFullYear();
+    const yesterdayMonth = String(yesterday.getMonth() + 1).padStart(2, "0");
+    const yesterdayDay = String(yesterday.getDate()).padStart(2, "0");
+    const yesterdayString = `${yesterdayYear}-${yesterdayMonth}-${yesterdayDay}`;
+
+    // Check and reset streaks if there's a gap
+    for (const streak of streaks) {
+      // If lastCompleted is not today or yesterday, reset the streak
+      if (streak.lastCompleted && streak.lastCompleted !== todayString && streak.lastCompleted !== yesterdayString) {
+        // Update the streak in database
+        await Streak.updateOne(
+          { _id: streak._id },
+          { currentStreak: 0 }
+        );
+        // Update the in-memory streak object
+        streak.currentStreak = 0;
+      }
+    }
+
     // Calculate statistics
     const totalHabits = habits.length;
     const completedToday = weekEntries.filter((e) => e.date === todayString).length;

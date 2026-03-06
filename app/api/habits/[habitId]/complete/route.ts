@@ -130,8 +130,11 @@ export async function POST(
         lastCompleted: date,
       });
     } else {
-      // Check if completing on a consecutive day
-      const isConsecutive = streak.lastCompleted === yesterdayString;
+      // Check if there's a gap in the streak (lastCompleted is not yesterday or today)
+      let isConsecutive = false;
+      if (streak.lastCompleted === yesterdayString || streak.lastCompleted === date) {
+        isConsecutive = true;
+      }
       
       if (isConsecutive) {
         // Continue the streak
@@ -208,15 +211,37 @@ export async function GET(
       .sort({ date: -1 })
       .lean();
 
-    const streak = await Streak.findOne({
+    const streakDoc = await Streak.findOne({
       habitId,
       userId: payload.userId,
-    }).lean();
+    });
+
+    // Check if streak needs to be reset due to missed days
+    if (streakDoc) {
+      const today = new Date();
+      const todayYear = today.getFullYear();
+      const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
+      const todayDay = String(today.getDate()).padStart(2, "0");
+      const todayString = `${todayYear}-${todayMonth}-${todayDay}`;
+
+      const yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+      const yesterdayYear = yesterday.getFullYear();
+      const yesterdayMonth = String(yesterday.getMonth() + 1).padStart(2, "0");
+      const yesterdayDay = String(yesterday.getDate()).padStart(2, "0");
+      const yesterdayString = `${yesterdayYear}-${yesterdayMonth}-${yesterdayDay}`;
+
+      // If lastCompleted is not today or yesterday, reset the streak
+      if (streakDoc.lastCompleted && streakDoc.lastCompleted !== todayString && streakDoc.lastCompleted !== yesterdayString) {
+        streakDoc.currentStreak = 0;
+        await streakDoc.save();
+      }
+    }
 
     return NextResponse.json({
       habit,
       entries,
-      streak: streak || {
+      streak: streakDoc || {
         currentStreak: 0,
         longestStreak: 0,
         lastCompleted: null,
