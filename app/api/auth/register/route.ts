@@ -62,7 +62,9 @@ export async function POST(req: Request) {
     });
 
     return response;
-  } catch {
-    return Response.json(getErrorResponse("Server error"), { status: 500 });
+  } catch (err) {
+    console.error("Register error:", err);
+    const errorMessage = err instanceof Error ? err.message : "Server error";
+    return Response.json(getErrorResponse(errorMessage), { status: 500 });
   }
 }

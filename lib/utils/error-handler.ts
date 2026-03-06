@@ -1,11 +1,7 @@
 /**
- * Returns error response based on environment
- * Production: returns empty object {}
- * Development: returns detailed error message
+ * Returns error response with message
+ * Always returns the error message for proper client-side handling
  */
 export function getErrorResponse(message: string) {
-  if (process.env.NODE_ENV === "production") {
-    return {};
-  }
   return { error: message };
 }
